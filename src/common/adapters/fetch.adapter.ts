@@ -1,14 +1,12 @@
-import axios, { AxiosInstance } from 'axios';
-import { HttpAdapter } from '../interfaces/http-adapter.interface';
 import { Injectable } from '@nestjs/common';
+import { HttpAdapter } from '../interfaces/http-adapter.interface';
 
 @Injectable()
-export class AxiosAdapter implements HttpAdapter {
-  private axios: AxiosInstance = axios;
-
+export class FetchAdapter implements HttpAdapter {
   async get<T>(url: string): Promise<T> {
     try {
-      const { data } = await this.axios.get<T>(url);
+      const response = await fetch(url);
+      const data = await response.json();
       //console.log(data);
       return data;
     } catch (error) {
